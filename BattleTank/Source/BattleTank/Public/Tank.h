@@ -25,12 +25,20 @@ private:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UPROPERTY(EditAnywhere, Category = Firing)
+	float ProjectileLaunchSpeed = 100000.0; //find sensible default
+
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
 public:	
+	//Set the barrel to move while aiming
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+
 	//Start moving barrel to aim it at set location
 	void AimAt(FVector HitLocation);
+	
 	
 	
 };

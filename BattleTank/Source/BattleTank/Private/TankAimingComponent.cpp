@@ -32,9 +32,46 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	// ...
 }
 
-void UTankAimingComponent::AimAt(FVector AimingPoint)
+void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
 {
-	auto OwnerName = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming at: %s"), *OwnerName, *AimingPoint.ToString());
+	Barrel = BarrelToSet;
 }
 
+void UTankAimingComponent::AimAt(FVector AimingPoint, float ProjectileLaunchSpeed)
+{
+	FVector ProjectileLaunchVelocity = FVector(0.0);
+	if (!Barrel)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No barrel attached to %s"), *GetOwner()->GetName());
+		return;
+	}
+	else
+	{
+		//getting velocity so we could find the direction to which move the barrel
+		if (UGameplayStatics::SuggestProjectileVelocity
+				(
+					this,
+					ProjectileLaunchVelocity,
+					Barrel->GetSocketLocation(FName("Projectile")),
+					AimingPoint,
+					ProjectileLaunchSpeed,
+					false,
+					0,
+					0,
+					ESuggestProjVelocityTraceOption::DoNotTrace
+				)
+			)
+		{
+			//We should aim using not a velocity vector, but a unit vector, which shows direction without velocity by itself
+			auto AimDirection = ProjectileLaunchVelocity.GetSafeNormal();
+			MoveBarrel(&AimDirection);
+		}
+		//if no solution how to aim - do nothing
+	}
+}
+
+void UTankAimingComponent::MoveBarrel(FVector* AimDirection)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Gotta move barrel of %s to %s"), *GetOwner()->GetName(), *AimDirection->ToString())
+	return;
+}
