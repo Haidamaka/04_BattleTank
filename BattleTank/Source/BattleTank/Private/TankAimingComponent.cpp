@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAimingComponent.h"
-
+#include "TankBarrel.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -13,26 +13,7 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-
-// Called when the game starts
-void UTankAimingComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// ...
-	
-}
-
-
-// Called every frame
-void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-}
-
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
+void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
 }
@@ -40,6 +21,8 @@ void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
 void UTankAimingComponent::AimAt(FVector AimingPoint, float ProjectileLaunchSpeed)
 {
 	FVector ProjectileLaunchVelocity = FVector(0.0);
+	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
+	bool bHaveAimSolution = false;
 	if (!Barrel)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("No barrel attached to %s"), *GetOwner()->GetName());
@@ -48,19 +31,19 @@ void UTankAimingComponent::AimAt(FVector AimingPoint, float ProjectileLaunchSpee
 	else
 	{
 		//getting velocity so we could find the direction to which move the barrel
-		if (UGameplayStatics::SuggestProjectileVelocity
-				(
-					this,
-					ProjectileLaunchVelocity,
-					Barrel->GetSocketLocation(FName("Projectile")),
-					AimingPoint,
-					ProjectileLaunchSpeed,
-					false,
-					0,
-					0,
-					ESuggestProjVelocityTraceOption::DoNotTrace
-				)
-			)
+		bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity
+		(
+			this,
+			ProjectileLaunchVelocity,
+			StartLocation,
+			AimingPoint,
+			ProjectileLaunchSpeed,
+			false,
+			0,
+			0,
+			ESuggestProjVelocityTraceOption::DoNotTrace
+		);
+		if (bHaveAimSolution)
 		{
 			//We should aim using not a velocity vector, but a unit vector, which shows direction without velocity by itself
 			auto AimDirection = ProjectileLaunchVelocity.GetSafeNormal();
@@ -72,6 +55,11 @@ void UTankAimingComponent::AimAt(FVector AimingPoint, float ProjectileLaunchSpee
 
 void UTankAimingComponent::MoveBarrel(FVector* AimDirection)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Gotta move barrel of %s to %s"), *GetOwner()->GetName(), *AimDirection->ToString())
+	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection->Rotation();
+	auto DeltaRotator = AimAsRotator - BarrelRotator;
+
+	Barrel->Elevate(5); //TODO remove magic number
+	
 	return;
 }
