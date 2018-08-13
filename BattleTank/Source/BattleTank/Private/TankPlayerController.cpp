@@ -1,11 +1,15 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "Tank.h"
 #include "TankPlayerController.h"
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	auto ControlledTank = GetControlledTank();
+	FVector Test = FVector(1.0, 1.0, 0);
+	FRotator ConversionText = Test.Rotation();
+	UE_LOG(LogTemp, Warning, TEXT("conversion test: %s"), *ConversionText.ToString())
 	if (!ControlledTank)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("PlayerController not posessing a tank"));

@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "Runtime/Engine/Classes/Engine/World.h"
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
 
@@ -43,11 +44,17 @@ void UTankAimingComponent::AimAt(FVector AimingPoint, float ProjectileLaunchSpee
 			0,
 			ESuggestProjVelocityTraceOption::DoNotTrace
 		);
+		auto Time = GetWorld()->GetTimeSeconds();
 		if (bHaveAimSolution)
 		{
 			//We should aim using not a velocity vector, but a unit vector, which shows direction without velocity by itself
 			auto AimDirection = ProjectileLaunchVelocity.GetSafeNormal();
 			MoveBarrel(&AimDirection);
+			//UE_LOG(LogTemp, Warning, TEXT("%f: Aiming solution found"), Time)
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("%f: Aiming solution not found"), Time)
 		}
 		//if no solution how to aim - do nothing
 	}
@@ -59,7 +66,7 @@ void UTankAimingComponent::MoveBarrel(FVector* AimDirection)
 	auto AimAsRotator = AimDirection->Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 
-	Barrel->Elevate(5); //TODO remove magic number
+	Barrel->Elevate(DeltaRotator.Pitch);
 	
 	return;
 }
