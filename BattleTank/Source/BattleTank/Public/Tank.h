@@ -8,6 +8,7 @@
 
 class UTankBarrel;
 class UTankAimingComponent;
+class UTankTurret;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -34,10 +35,11 @@ public:
 	//Set the barrel to move while aiming
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
+	//Set turret ref to move while aiming
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetTurretReference(UTankTurret* TurretToSet);
 
 	//Start moving barrel to aim it at set location
 	void AimAt(FVector HitLocation);
-	
-	
-	
+
 };
