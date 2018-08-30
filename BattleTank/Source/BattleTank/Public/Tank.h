@@ -7,8 +7,9 @@
 #include "Tank.generated.h"
 
 class UTankBarrel;
-class UTankAimingComponent;
 class UTankTurret;
+class UTankTrack;
+class UTankAimingComponent;
 class AMainTurretProjectile;
 
 UCLASS()
@@ -26,10 +27,10 @@ private:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float ProjectileLaunchSpeed = 4000.0;
 
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float ReloadTime = 3.0;
 
 	UPROPERTY(EditAnywhere, Category = Firing)
@@ -37,9 +38,11 @@ private:
 
 	//Local barrel ref to spawn projectile
 	UTankBarrel* Barrel = nullptr;
+	UTankTrack* LeftTrack = nullptr;
+	UTankTrack* RightTrack = nullptr;
 
 	//world time when main turret fired previously to calculate reload
-	float lastMTfire = -3.0;
+	float lastMTfire = 0;
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
@@ -50,6 +53,9 @@ public:
 	//Set turret ref to move while aiming
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret* TurretToSet);
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetTracksReference(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
 
 	//Start moving barrel to aim it at set location
 	void AimAt(FVector HitLocation);
