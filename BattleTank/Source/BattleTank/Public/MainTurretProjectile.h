@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "MainTurretProjectile.generated.h"
 
+class UProjectileMovementComponent;
+
 UCLASS()
 class BATTLETANK_API AMainTurretProjectile : public AActor
 {
@@ -22,7 +24,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	
+	UProjectileMovementComponent* ProjectileMovement = nullptr;
+	void LaunchProjectile(float Speed);
 	
 };

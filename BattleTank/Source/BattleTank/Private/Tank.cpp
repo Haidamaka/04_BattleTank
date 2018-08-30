@@ -53,19 +53,23 @@ void ATank::AimAt(FVector HitLocation)
 void ATank::FireMainTurret()
 {
 	auto Time = GetWorld()->GetTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("%f: BANG!"), Time)
+	bool isReloaded = ((Time - lastMTfire) > ReloadTime);
 
 	if (!Barrel)
 		{
 			return;
 		}
 	//Spawning projectile at Projectile socket location of the Barrel
-
-	GetWorld()->SpawnActor<AMainTurretProjectile>
-		(
-			MainTurretProjectile,
-			Barrel->GetSocketLocation(FName("Projectile")),
-			Barrel->GetSocketRotation(FName("Projectile"))
-		);
+	if (isReloaded)
+	{
+		auto Projectile = GetWorld()->SpawnActor<AMainTurretProjectile>
+				(
+				MainTurretProjectile,
+				Barrel->GetSocketLocation(FName("Projectile")),
+				Barrel->GetSocketRotation(FName("Projectile"))
+				);
+		Projectile->LaunchProjectile(ProjectileLaunchSpeed);
+		lastMTfire = Time;
+	}
 }
 

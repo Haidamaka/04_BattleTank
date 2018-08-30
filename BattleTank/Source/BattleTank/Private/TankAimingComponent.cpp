@@ -62,11 +62,6 @@ void UTankAimingComponent::AimAt(FVector AimingPoint, float ProjectileLaunchSpee
 			auto AimDirection = ProjectileLaunchVelocity.GetSafeNormal();
 			MoveBarrel(&AimDirection);
 			MoveTurret(&AimDirection);
-			//UE_LOG(LogTemp, Warning, TEXT("%f: Aiming solution found"), Time)
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("%f: Aiming solution not found"), Time)
 		}
 		//if no solution how to aim - do nothing
 	}

@@ -27,7 +27,10 @@ private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float ProjectileLaunchSpeed = 4000.0; //find sensible default
+	float ProjectileLaunchSpeed = 4000.0;
+
+	UPROPERTY(EditAnywhere, Category = Firing)
+	float ReloadTime = 3.0;
 
 	UPROPERTY(EditAnywhere, Category = Firing)
 	TSubclassOf<AMainTurretProjectile> MainTurretProjectile;
@@ -35,6 +38,8 @@ private:
 	//Local barrel ref to spawn projectile
 	UTankBarrel* Barrel = nullptr;
 
+	//world time when main turret fired previously to calculate reload
+	float lastMTfire = -3.0;
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
