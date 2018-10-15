@@ -11,6 +11,7 @@ class UTankTurret;
 class UTankTrack;
 class UTankAimingComponent;
 class AMainTurretProjectile;
+class UTankMovementComponent;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -45,6 +46,8 @@ private:
 	float lastMTfire = 0;
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
+	UPROPERTY(BlueprintReadOnly)
+	UTankMovementComponent* TankMovementComponent = nullptr;
 
 public:	
 	//Set the barrel to move while aiming
