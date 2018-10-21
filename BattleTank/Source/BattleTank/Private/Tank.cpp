@@ -16,7 +16,6 @@ ATank::ATank()
 
 	//no need to protect pointer pointers in constructor
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
-	TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 }
 
 // Called when the game starts or when spawned
@@ -45,12 +44,6 @@ void ATank::SetTurretReference(UTankTurret * TurretToSet)
 {
 	TankAimingComponent->SetTurretReference(TurretToSet);
 	return;
-}
-
-void ATank::SetTracksReference(UTankTrack * LeftTrackToSet, UTankTrack * RightTrackToSet)
-{
-	LeftTrack = LeftTrackToSet;
-	RightTrack = RightTrackToSet;
 }
 
 void ATank::AimAt(FVector HitLocation)

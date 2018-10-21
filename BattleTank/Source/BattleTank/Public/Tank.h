@@ -8,7 +8,6 @@
 
 class UTankBarrel;
 class UTankTurret;
-class UTankTrack;
 class UTankAimingComponent;
 class AMainTurretProjectile;
 class UTankMovementComponent;
@@ -39,8 +38,6 @@ private:
 
 	//Local barrel ref to spawn projectile
 	UTankBarrel* Barrel = nullptr;
-	UTankTrack* LeftTrack = nullptr;
-	UTankTrack* RightTrack = nullptr;
 
 	//world time when main turret fired previously to calculate reload
 	float lastMTfire = 0;
@@ -56,9 +53,6 @@ public:
 	//Set turret ref to move while aiming
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret* TurretToSet);
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTracksReference(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
 
 	//Start moving barrel to aim it at set location
 	void AimAt(FVector HitLocation);
