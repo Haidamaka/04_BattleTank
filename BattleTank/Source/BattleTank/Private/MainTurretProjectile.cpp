@@ -16,7 +16,7 @@ AMainTurretProjectile::AMainTurretProjectile()
 void AMainTurretProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame
