@@ -59,4 +59,5 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Controlls)
 	void FireMainTurret();
+
 };

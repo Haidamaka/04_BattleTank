@@ -16,11 +16,14 @@ class BATTLETANK_API ATankAIController : public AAIController
 	GENERATED_BODY()
 	
 private:
-	ATank* ControlledTank;
-	ATank* GetPlayerTank() const;
+	ATank* ControlledTank = nullptr;
+	ATank* PlayerTank = nullptr;
 	void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-	void AimAtPlayer() const;
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float AcceptableDistance = 3000; // check measurement unit
+
 
 public:
 
