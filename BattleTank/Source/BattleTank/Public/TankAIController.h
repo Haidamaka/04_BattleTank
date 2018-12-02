@@ -21,7 +21,7 @@ private:
 	void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float AcceptableDistance = 3000; // check measurement unit
 
 

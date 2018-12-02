@@ -15,15 +15,12 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
+void UTankAimingComponent::Initialise(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet)
 {
+	Turret = TurretToSet;
 	Barrel = BarrelToSet;
 }
 
-void UTankAimingComponent::SetTurretReference(UTankTurret * TurretToSet)
-{
-	Turret = TurretToSet;
-}
 
 void UTankAimingComponent::AimAt(FVector AimingPoint, float ProjectileLaunchSpeed)
 {
@@ -61,7 +58,7 @@ void UTankAimingComponent::AimAt(FVector AimingPoint, float ProjectileLaunchSpee
 			//We should aim using not a velocity vector, but a unit vector, which shows direction without velocity by itself
 			auto AimDirection = ProjectileLaunchVelocity.GetSafeNormal();
 			MoveBarrel(&AimDirection);
-			MoveTurret(&AimDirection);
+			//MoveTurret(&AimDirection);
 		}
 		//if no solution how to aim - do nothing
 	}
@@ -69,13 +66,13 @@ void UTankAimingComponent::AimAt(FVector AimingPoint, float ProjectileLaunchSpee
 
 void UTankAimingComponent::MoveBarrel(FVector* AimDirection)
 {
+	if (!Barrel || !Turret) { return; }
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection->Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 
 	Barrel->Elevate(DeltaRotator.Pitch);
-	
-	return;
+	Turret->Rotate(DeltaRotator.Yaw);
 }
 
 void UTankAimingComponent::MoveTurret(FVector * AimDirection)
@@ -83,5 +80,6 @@ void UTankAimingComponent::MoveTurret(FVector * AimDirection)
 	auto TurretRotator = Turret->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection->Rotation();
 	auto DeltaRotator = AimAsRotator - TurretRotator;
+
 	Turret->Rotate(DeltaRotator.Yaw);
 }
