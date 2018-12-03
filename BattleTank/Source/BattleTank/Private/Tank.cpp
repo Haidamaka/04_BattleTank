@@ -2,10 +2,7 @@
 
 #include "Tank.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
-#include "MainTurretProjectile.h"
-#include "TankBarrel.h"
-#include "TankTrack.h"
-#include "MainTurretProjectile.h"
+
 
 // Sets default values
 ATank::ATank()
@@ -29,31 +26,4 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-void ATank::FireMainTurret()
-{
-	if (!ensure(Barrel)) { return; }
-	auto Time = GetWorld()->GetTimeSeconds();
-	bool isReloaded = false;
-	if (lastMTfire == 0)
-	{
-		isReloaded = true;
-	}
-	else
-	{
-		isReloaded = ((Time - lastMTfire) > ReloadTime);
-	}
-
-	if (isReloaded)
-	//Spawning projectile at Projectile socket location of the Barrel
-	{
-		auto Projectile = GetWorld()->SpawnActor<AMainTurretProjectile>
-			(
-				MainTurretProjectile,
-				Barrel->GetSocketLocation(FName("Projectile")),
-				Barrel->GetSocketRotation(FName("Projectile"))
-				);
-		Projectile->LaunchProjectile(ProjectileLaunchSpeed);
-		lastMTfire = Time;
-	}
-}
 
