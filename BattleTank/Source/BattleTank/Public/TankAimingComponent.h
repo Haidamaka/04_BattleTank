@@ -32,6 +32,9 @@ private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float ProjectileLaunchSpeed = 4000.0;
+
 	void MoveBarrel(FVector* AimDirection);
 	void MoveTurret(FVector* AimDirection);
 protected:
@@ -47,6 +50,6 @@ public:
 	void Initialise(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet);
 
 	//Move turret and barrel to aim at some location
-	virtual void AimAt(FVector AimingPoint, float ProjectileLaunchSpeed);
+	virtual void AimAt(FVector AimingPoint);
 	
 };

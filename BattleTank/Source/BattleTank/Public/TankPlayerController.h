@@ -7,8 +7,8 @@
 #include "Runtime/Engine/Classes/Engine/World.h"
 #include "TankPlayerController.generated.h"
 
-class ATank;
 class UTankAimingComponent;
+
 /**
  * 
  */
@@ -22,11 +22,11 @@ private:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditDefaultsOnly)
-		float CrossHairXLocation = 0.5;
+	float CrossHairXLocation = 0.5;
 	UPROPERTY(EditDefaultsOnly)
-		float CrossHairYLocation = 0.33333;
+	float CrossHairYLocation = 0.33333;
 	UPROPERTY(EditDefaultsOnly)
-		float LineTraceRange = 1000000.0;
+	float LineTraceRange = 1000000.0;
 
 	//start turning barrel towards the crosshair
 	virtual void AimTowardsCrosshair(); 
@@ -36,9 +36,6 @@ private:
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const;
 
 protected:
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank * GetControlledTank() const;
-
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void FoundAimingComponent(UTankAimingComponent* AimCompRef);
 

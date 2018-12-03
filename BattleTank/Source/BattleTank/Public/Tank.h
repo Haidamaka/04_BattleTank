@@ -8,7 +8,6 @@
 
 class UTankBarrel;
 class UTankTurret;
-class UTankAimingComponent;
 class AMainTurretProjectile;
 
 UCLASS()
@@ -43,13 +42,8 @@ private:
 	float lastMTfire = 0;
 
 protected:
-	UPROPERTY(BlueprintReadOnly)
-	UTankAimingComponent* TankAimingComponent = nullptr;
 
 public:	
-	//Start moving barrel to aim it at set location
-	void AimAt(FVector HitLocation);
-
 	UFUNCTION(BlueprintCallable, Category = "Controlls")
 	void FireMainTurret();
 
