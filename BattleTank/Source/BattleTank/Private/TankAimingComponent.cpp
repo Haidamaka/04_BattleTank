@@ -27,16 +27,7 @@ void UTankAimingComponent::AimAt(FVector AimingPoint, float ProjectileLaunchSpee
 	FVector ProjectileLaunchVelocity = FVector(0.0);
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 	bool bHaveAimSolution = false;
-	if (!Turret)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("No turret attached to %s"), *GetOwner()->GetName());
-		return;
-	}
-	if (!Barrel)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("No barrel attached to %s"), *GetOwner()->GetName());
-		return;
-	}
+	if (!ensure(Turret && Barrel)) { return; }
 	else
 	{
 		//getting velocity so we could find the direction to which move the barrel
@@ -66,7 +57,7 @@ void UTankAimingComponent::AimAt(FVector AimingPoint, float ProjectileLaunchSpee
 
 void UTankAimingComponent::MoveBarrel(FVector* AimDirection)
 {
-	if (!Barrel || !Turret) { return; }
+	if (!ensure(Barrel && Turret)) { return; }
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection->Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;

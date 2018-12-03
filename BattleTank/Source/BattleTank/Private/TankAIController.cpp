@@ -17,7 +17,7 @@ void ATankAIController::Tick(float DeltaTime)
 
 	PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
-	if (PlayerTank != nullptr)
+	if (ensure(PlayerTank))
 	{
 		//Move to player location
 		MoveToActor(PlayerTank, AcceptableDistance);

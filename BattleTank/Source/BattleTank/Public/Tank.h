@@ -10,7 +10,6 @@ class UTankBarrel;
 class UTankTurret;
 class UTankAimingComponent;
 class AMainTurretProjectile;
-class UTankMovementComponent;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -27,6 +26,7 @@ private:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	//TODO remove once firing is moved to AimingComponent
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ProjectileLaunchSpeed = 4000.0;
 
@@ -41,12 +41,10 @@ private:
 
 	//world time when main turret fired previously to calculate reload
 	float lastMTfire = 0;
+
 protected:
 	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;
-
-	UPROPERTY(BlueprintReadOnly)
-	UTankMovementComponent* TankMovementComponent = nullptr;
 
 public:	
 	//Start moving barrel to aim it at set location
