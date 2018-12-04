@@ -32,7 +32,7 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
-
+	FVector AimDirection = FVector(0);
 	//world time when main turret fired previously to calculate reload
 	float lastMTfire = 0;
 
@@ -45,12 +45,14 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	TSubclassOf<AMainTurretProjectile> ProjectileBlueprint;
 
+	virtual void BeginPlay() override;
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+
 	void MoveBarrel(FVector* AimDirection);
-	void MoveTurret(FVector* AimDirection);
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringState FiringState = EFiringState::Locked;
+	EFiringState FiringState = EFiringState::Reloading;
 
 public:	
 	// Sets default values for this component's properties
@@ -65,4 +67,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Controlls")
 	virtual void FireMainTurret();
+
+	bool IsBarrelMoving();
 };
