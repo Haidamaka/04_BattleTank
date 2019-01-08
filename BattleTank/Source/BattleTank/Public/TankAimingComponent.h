@@ -69,4 +69,5 @@ public:
 	virtual void FireMainTurret();
 
 	bool IsBarrelMoving();
+	EFiringState GetFiringState();
 };

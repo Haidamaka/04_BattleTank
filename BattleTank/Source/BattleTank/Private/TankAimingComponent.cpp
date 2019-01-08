@@ -57,6 +57,11 @@ bool UTankAimingComponent::IsBarrelMoving()
 	return !(Barrel->GetForwardVector().Equals(AimDirection, 0.01));
 }
 
+EFiringState UTankAimingComponent::GetFiringState()
+{
+	return FiringState;
+}
+
 void UTankAimingComponent::AimAt(FVector AimingPoint)
 {
 	FVector ProjectileLaunchVelocity = FVector(0.0);
