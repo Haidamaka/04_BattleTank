@@ -13,7 +13,7 @@ UTankAimingComponent::UTankAimingComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-	static ConstructorHelpers::FClassFinder<AMainTurretProjectile> Proj(TEXT("/Game/Tank/MyMainTurretProjectile_BP"));
+	static ConstructorHelpers::FClassFinder<AMainTurretProjectile> Proj(TEXT("/Game/Projectile/MyMainTurretProjectile_BP"));
 	if (Proj.Class)
 	{
 		ProjectileBlueprint = Proj.Class;

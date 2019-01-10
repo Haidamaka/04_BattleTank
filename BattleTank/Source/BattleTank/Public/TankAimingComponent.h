@@ -38,13 +38,13 @@ private:
 	float lastMTfire = 0;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	int MaxAmmo = 3;
+	int32 MaxAmmo = 10;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ProjectileLaunchSpeed = 4000.0;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float ReloadTime = 3.0;
+	float ReloadTime = 2.0;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	TSubclassOf<AMainTurretProjectile> ProjectileBlueprint;
@@ -59,7 +59,7 @@ protected:
 	EFiringState FiringState = EFiringState::Reloading;
 
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	int CurrentAmmo = 0;
+	int32 CurrentAmmo = 0;
 
 public:	
 	// Sets default values for this component's properties
