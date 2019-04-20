@@ -10,7 +10,7 @@
 AMainTurretProjectile::AMainTurretProjectile()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Projectile mesh"));
 	SetRootComponent(CollisionMesh);
@@ -18,7 +18,11 @@ AMainTurretProjectile::AMainTurretProjectile()
 	CollisionMesh->SetVisibility(false);
 
 	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Projectile launch blast"));
-	LaunchBlast->AttachTo(RootComponent);
+	LaunchBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+
+	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Projectile impact blast"));
+	ImpactBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	ImpactBlast->bAutoActivate = false;
 
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile movement"));
 	ProjectileMovement->bAutoActivate = false;
@@ -29,15 +33,15 @@ AMainTurretProjectile::AMainTurretProjectile()
 void AMainTurretProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-
+	CollisionMesh->OnComponentHit.AddDynamic(this, &AMainTurretProjectile::OnHit);
 }
 
-// Called every frame
-void AMainTurretProjectile::Tick(float DeltaTime)
+void AMainTurretProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit)
 {
-	Super::Tick(DeltaTime);
-
+	LaunchBlast->Deactivate();
+	ImpactBlast->Activate();
 }
+
 
 void AMainTurretProjectile::LaunchProjectile(float Speed)
 {

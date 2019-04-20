@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/StaticMeshComponent.h"
 #include "MainTurretProjectile.generated.h"
 
 class UProjectileMovementComponent;
@@ -16,9 +17,6 @@ class BATTLETANK_API AMainTurretProjectile : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AMainTurretProjectile();
-
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 	void LaunchProjectile(float Speed);
 
@@ -34,5 +32,11 @@ private:
 	UStaticMeshComponent* CollisionMesh = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = "Setup")
-	UParticleSystemComponent* LaunchBlast = nullptr;	
+	UParticleSystemComponent* LaunchBlast = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Setup")
+	UParticleSystemComponent* ImpactBlast = nullptr;
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 };
