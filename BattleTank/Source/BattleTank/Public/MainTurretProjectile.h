@@ -4,11 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Components/StaticMeshComponent.h"
 #include "MainTurretProjectile.generated.h"
+
 
 class UProjectileMovementComponent;
 class UParticleSystemComponent;
+class UStaticMeshComponent;
+class URadialForceComponent;
+
+
 UCLASS()
 class BATTLETANK_API AMainTurretProjectile : public AActor
 {
@@ -36,6 +40,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Setup")
 	UParticleSystemComponent* ImpactBlast = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Setup")
+	URadialForceComponent* ImpactForce = nullptr;
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);

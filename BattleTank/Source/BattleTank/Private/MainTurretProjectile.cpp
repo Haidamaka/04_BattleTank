@@ -3,6 +3,8 @@
 #include "MainTurretProjectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Engine/StaticMesh.h"
+#include "Components/StaticMeshComponent.h"
+#include "PhysicsEngine/RadialForceComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 
 
@@ -24,6 +26,10 @@ AMainTurretProjectile::AMainTurretProjectile()
 	ImpactBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	ImpactBlast->bAutoActivate = false;
 
+	ImpactForce = CreateDefaultSubobject<URadialForceComponent>(FName("Impact Force"));
+	ImpactForce->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+
+
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile movement"));
 	ProjectileMovement->bAutoActivate = false;
 	
@@ -40,6 +46,7 @@ void AMainTurretProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * O
 {
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
+	ImpactForce->FireImpulse();
 }
 
 
