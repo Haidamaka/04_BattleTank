@@ -3,6 +3,8 @@
 #include "MainTurretProjectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Engine/StaticMesh.h"
+#include "Engine/World.h"
+#include "Engine/Public/TimerManager.h"
 #include "Components/StaticMeshComponent.h"
 #include "PhysicsEngine/RadialForceComponent.h"
 #include "Particles/ParticleSystemComponent.h"
@@ -47,6 +49,17 @@ void AMainTurretProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * O
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
 	ImpactForce->FireImpulse();
+
+	SetRootComponent(ImpactBlast);
+	CollisionMesh->DestroyComponent();
+
+	FTimerHandle TimerHandle;
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AMainTurretProjectile::DestroyProjectile, DestroyDelay);
+}
+
+void AMainTurretProjectile::DestroyProjectile()
+{
+	Destroy();
 }
 
 
