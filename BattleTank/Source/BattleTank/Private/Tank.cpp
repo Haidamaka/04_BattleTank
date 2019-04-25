@@ -27,6 +27,7 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+
 float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
 {
 	int32 DamagePoints = FPlatformMath::RoundToInt(DamageAmount);
@@ -35,7 +36,7 @@ float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AC
 	CurrentHealth = CurrentHealth - DamageToApply;
 	if (CurrentHealth <= 0)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("%s is dead"), *GetName())
+		OnDeath.Broadcast();
 	}
 	return DamageToApply;
 }

@@ -19,6 +19,11 @@ private:
 	void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
+	virtual void SetPawn(APawn *InPawn) override;
+
+	UFUNCTION()
+	void OnTankDeath();
+
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float AcceptableDistance = 8000; // check measurement unit

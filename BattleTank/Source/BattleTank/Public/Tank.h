@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Delegates/Delegate.h"
 #include "Tank.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
 
 
 UCLASS()
@@ -23,7 +25,7 @@ private:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	
+
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	int32 MaxHealth = 100.0f;
@@ -39,4 +41,6 @@ public:
 	//Returns current health as a percentage of starting health between 0 and 1
 	UFUNCTION(BlueprintPure, Category = "Health")
 	float GetHealthPercent();
+
+	FTankDelegate OnDeath;
 };
