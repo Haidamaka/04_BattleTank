@@ -38,7 +38,7 @@ private:
 	float lastMTfire = 0;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	int32 MaxAmmo = 10;
+	int32 MaxAmmo = 20;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ProjectileLaunchSpeed = 4000.0;

@@ -33,6 +33,7 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "CurrentState")
 	int32 CurrentHealth = 0.0f;
 
+
 protected:
 
 public:	
